@@ -207,25 +207,52 @@ var shop_5 = {
 
 //create array of shops
 var shops = [shop_1, shop_2, shop_3, shop_4, shop_5];
+var section;
+if (document.title.toLowerCase().indexOf('sales') > 0){
+  buildSalesPage();
+}
+else{
+  buildStoreHours();
+}
 
-//loop through each shop
-// call the create_shop_hrs_cookies() method to build the array of shop hours and cookies
-// call the  create_list(); method to bulid the unordered list as a string
-for (var i = 0; i < shops.length; i++){
-  shops[i].create_shop_hrs_cookies();
-  shops[i].create_list();
-  //create a new section
-  var section = document.createElement('section');
-  //build the inner html
-  var shop_location_tag = 'p';
-  var shop_location = '<' + shop_location_tag + '>' + shops[i].shopLocation + '</' + shop_location_tag + '>';
-  //insert the html and add it to the document
-  section.innerHTML = shop_location + shops[i].ul;
-  var salesData_div = document.getElementById('sales-data');
-  //  document.body.appendChild(section);
-  salesData_div.appendChild(section);
+
+function buildSalesPage(){
+  //loop through each shop
+  // call the create_shop_hrs_cookies() method to build the array of shop hours and cookies
+  // call the  create_list(); method to bulid the unordered list as a string
+  for (var i = 0; i < shops.length; i++){
+    shops[i].create_shop_hrs_cookies();
+    shops[i].create_list();
+    //create a new section
+    section = document.createElement('section');
+    //build the inner html
+    var shop_location_tag = 'p';
+    var shop_location = '<' + shop_location_tag + '>' + shops[i].shopLocation + '</' + shop_location_tag + '>';
+    //insert the html and add it to the document
+    section.innerHTML = shop_location + shops[i].ul;
+    var salesData_div = document.getElementById('sales-data');
+    //  document.body.appendChild(section);
+    salesData_div.appendChild(section);
+  }
+}
+
+function buildStoreHours(){
+  var locations = [];
+  for (var i = 0; i < shops.length; i++){
+    locations.push('<span>' + shops[i].shopLocation + '</span><span class="open-hour">' + shops[i].hour_open + '</span><span>' + shops[i].hour_close + '</span>');
+  }
+  var locations_li = '<li>' + locations.join('</li><li>') + '</li>';
+  var ulEl = document.createElement('ul');
+  ulEl.innerHTML = locations_li;
+  console.log('ulEl:', ulEl);
+  var storeP = document.createElement('p');
+  storeP.innerHTML = '<span>Location</span><span>Open</span><span>Close</span>';
+  var store_locations = document.getElementById('store_locations');
+  store_locations.appendChild(storeP);
+  store_locations.appendChild(ulEl);
 }
 
 console.log('shops: ',shops);
 console.log('window.location: ', window.location);
 console.log(document.title);
+console.log('document.title.toLowerCase().indexOf', document.title.toLowerCase().indexOf('sales'));
