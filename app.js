@@ -88,126 +88,45 @@ function buildList(hoursArray, cTotal){
   return listItemsStr;
 }
 
-//Shop 1 object
-var shop_1 = {
-  shopLocation: '1st and Pike',
-  min_customer_hr: 23,
-  max_customer_hr: 65,
-  avg_cookies_hr: 6.3,
-  hour_open: '6am',
-  hour_close: '8pm',
-  shop_hrs_cookies: [],
-  totalCookies: '',
-  ul: '',
-  randomCustomers: function(){
-    return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
-  },
-  create_shop_hrs_cookies: function (){
-    var cookieData = createCookiesHours(this.hour_open, this.hour_close, this.avg_cookies_hr, this);
-    this.shop_hrs_cookies = cookieData[0];
-    this.totalCookies = cookieData[1];
-  },
-  create_list: function(){
-    this.ul = buildList(this.shop_hrs_cookies, this.totalCookies);
-  }
-
+//Define constructor for shop
+function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
+  this.shopLocation = shopLocation;
+  this.min_customer_hr = min_customer_hr;
+  this.max_customer_hr = max_customer_hr;
+  this.avg_cookies_hr = avg_cookies_hr;
+  this.hour_open = hour_open;
+  this.hour_close = hour_close;
+  this.shop_hrs_cookies = [];
+  this.totalCookies = '';
+  this.ul = '';
 };
 
-//Shop 2 object
-var shop_2 = {
-  shopLocation: 'SeaTac Airport',
-  min_customer_hr: 33,
-  max_customer_hr: 24,
-  avg_cookies_hr: 1.2,
-  hour_open: '6am',
-  hour_close: '8pm',
-  shop_hrs_cookies: [],
-  totalCookies: '',
-  randomCustomers: function(){
-    return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
-  },
-  create_shop_hrs_cookies: function (){
-    var cookieData = createCookiesHours(this.hour_open, this.hour_close, this.avg_cookies_hr, this);
-    this.shop_hrs_cookies = cookieData[0];
-    this.totalCookies = cookieData[1];
-  },
-  create_list: function(){
-    this.ul = buildList(this.shop_hrs_cookies, this.totalCookies);
-  }
+Shop.prototype.randomCustomers = function(){
+  return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
 };
 
-//Shop 3 object
-var shop_3 = {
-  shopLocation: 'Seattle Center',
-  min_customer_hr: 11,
-  max_customer_hr: 38,
-  avg_cookies_hr: 3.7,
-  hour_open: '6am',
-  hour_close: '8pm',
-  shop_hrs_cookies: [],
-  totalCookies: '',
-  randomCustomers: function(){
-    return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
-  },
-  create_shop_hrs_cookies: function (){
-    var cookieData = createCookiesHours(this.hour_open, this.hour_close, this.avg_cookies_hr, this);
-    this.shop_hrs_cookies = cookieData[0];
-    this.totalCookies = cookieData[1];
-  },
-  create_list: function(){
-    this.ul = buildList(this.shop_hrs_cookies, this.totalCookies);
-  }
+Shop.prototype.create_shop_hrs_cookies = function (){
+  var cookieData = createCookiesHours(this.hour_open, this.hour_close, this.avg_cookies_hr, this);
+  this.shop_hrs_cookies = cookieData[0];
+  this.totalCookies = cookieData[1];
 };
 
-//Shop 4 object
-var shop_4 = {
-  shopLocation: 'Capitol Hill',
-  min_customer_hr: 20,
-  max_customer_hr: 38,
-  avg_cookies_hr: 2.3,
-  hour_open: '6am',
-  hour_close: '8pm',
-  shop_hrs_cookies: [],
-  totalCookies: '',
-  randomCustomers: function(){
-    return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
-  },
-  create_shop_hrs_cookies: function (){
-    var cookieData = createCookiesHours(this.hour_open, this.hour_close, this.avg_cookies_hr, this);
-    this.shop_hrs_cookies = cookieData[0];
-    this.totalCookies = cookieData[1];
-  },
-  create_list: function(){
-    this.ul = buildList(this.shop_hrs_cookies, this.totalCookies);
-  }
+Shop.prototype.create_list = function(){
+  this.ul = buildList(this.shop_hrs_cookies, this.totalCookies);
 };
 
-//Shop 4 object
-var shop_5 = {
-  shopLocation: 'Alki',
-  min_customer_hr: 2,
-  max_customer_hr: 16,
-  avg_cookies_hr: 4.6,
-  hour_open: '6am',
-  hour_close: '8pm',
-  shop_hrs_cookies: [],
-  totalCookies: '',
-  randomCustomers: function(){
-    return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
-  },
-  create_shop_hrs_cookies: function (){
-    var cookieData = createCookiesHours(this.hour_open, this.hour_close, this.avg_cookies_hr, this);
-    this.shop_hrs_cookies = cookieData[0];
-    this.totalCookies = cookieData[1];
-  },
-  create_list: function(){
-    this.ul = buildList(this.shop_hrs_cookies, this.totalCookies);
-  }
-};
+//create new shops
+var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '6am', '8pm');
+var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
+var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '6am', '8pm');
+var shop_4 = new Shop('Capitol Hill', 20, 38, 2.3, '6am', '8pm');
+var shop_5 = new Shop('Alki', 2, 16, 4.6, '6am', '8pm');
 
 //create array of shops
 var shops = [shop_1, shop_2, shop_3, shop_4, shop_5];
+console.log(shops);
 var section;
+
 if (document.title.toLowerCase().indexOf('sales') > 0){
   buildSalesPage();
 }
