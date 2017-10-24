@@ -221,7 +221,11 @@ for (var i = 0; i < shops.length; i++){
   var shop_location = '<' + shop_location_tag + '>' + shops[i].shopLocation + '</' + shop_location_tag + '>';
   //insert the html and add it to the document
   section.innerHTML = shop_location + shops[i].ul;
-  document.body.appendChild(section);
+  var salesData_div = document.getElementById('sales-data');
+  //  document.body.appendChild(section);
+  salesData_div.appendChild(section);
 }
 
 console.log('shops: ',shops);
+console.log('window.location: ', window.location);
+console.log(document.title);
