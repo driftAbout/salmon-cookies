@@ -134,7 +134,7 @@ tbody tr:last-child {
   border-bottom-width: 3px;
 }
 
-tbody td:first-child, th{
+tbody td:first-child, th, tfoot tr{
   font-weight:bold;
   color: #f6e7be;
   background-color: #342926;
@@ -152,15 +152,27 @@ tbody tr:last-child td:first-child{
   border-bottom-color: #333;
 }
 
-thead th:last-child{
+thead th:last-child, tfoot tr td:last-child{
   border-right-width: 3px;
+  border-right-color: #333;
+  width: 120px;
+}
+
+tfoot tr td:first-child {
+  background:#f6e7be;
+  color: #342926;
+  border-left-width: 3px;
+  border-top-color: #333;
   border-right-color: #333;
 }
 
-th {
+tfoot tr td:nth-child(2){
+  border-left-color: #333;
+}
+
+th, tfoot tr td{
   border-right-color:#f6e7be;
   /*border-bottom-width: 3px;*/
-
 }
 
 th:nth-child(1) {
@@ -169,6 +181,9 @@ th:nth-child(1) {
  width:130px;
 }
 
+tfoot tr {
+
+}
 
 
 
@@ -243,7 +258,6 @@ section ul {
 }*/
 
 footer {
-  display: none;
   position:fixed;
   bottom:0;
   width:100%;
