@@ -57,16 +57,123 @@ main {
   width: 960px;
 }
 
-section {
-  width:300px;
+.sales-data {
   background:#b9a656;
-  margin:10px;
-  float:left;
+  margin:0 auto;
   color:#342926;
   border-radius:3px;
   box-shadow: #999 1px 1px 5px 0;
+  position: relative;
+  width:100%;
 }
 
+.sales-data div {
+  background:#b9a656;
+  margin:0 auto;
+  color:#342926;
+  border-radius:3px;
+  box-shadow: #999 1px 1px 5px 0;
+  position: absolute;
+  left: -40px;
+  width:1080px;
+  margin-bottom: 120px;
+}
+
+#sales-table {
+  width: 960px;
+  margin: 20px auto;
+  margin-bottom:40px;
+  font-family: Verdana;
+  font-size: 12px;
+}
+
+.sales-data h2 {
+  width: 100%;
+  font-size: 22px;
+  font-weight:bold;
+  margin-top: 25px;
+  margin-left: 75px;
+}
+
+table, th, td, tr {
+  border-collapse: collapse;
+  border:1px solid #333;
+}
+
+table {
+  table-layout: fixed;
+}
+
+tbody tr:nth-child(odd){
+  background:#f6e7be;
+}
+
+td:nth-child(n+1), th:nth-child(n+1) {
+  padding:5px 0;
+  text-align: center;
+}
+
+tbody tr {
+  border-left-width: 3px;
+  border-right-width: 3px;
+}
+
+thead th:nth-child(n+1) {
+  border-top-width: 3px;
+}
+
+th:nth-child(2) {
+  border-left-width: 3px;
+}
+
+tbody tr:first-child  td:first-child {
+  border-top-width: 4px;
+}
+
+tbody tr:last-child {
+  border-bottom-width: 3px;
+}
+
+tbody td:first-child, th{
+  font-weight:bold;
+  color: #f6e7be;
+  background-color: #342926;
+  padding-left:10px;
+  text-align: left;
+}
+
+tbody td:first-child {
+  border-bottom-color:#f6e7be;
+  /*border-right-width: 3px;*/
+
+}
+
+tbody tr:last-child td:first-child{
+  border-bottom-color: #333;
+}
+
+thead th:last-child{
+  border-right-width: 3px;
+  border-right-color: #333;
+}
+
+th {
+  border-right-color:#f6e7be;
+  /*border-bottom-width: 3px;*/
+
+}
+
+th:nth-child(1) {
+ background-color: transparent;
+ border-color: transparent;
+ width:130px;
+}
+
+
+
+
+
+/*
 section p {
   font-size: 22px;
   margin: 20px 0 0 20px;
@@ -133,9 +240,10 @@ section ul {
 .clearFix{
   clear:both;
   margin-bottom:140px;
-}
+}*/
 
 footer {
+  display: none;
   position:fixed;
   bottom:0;
   width:100%;

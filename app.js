@@ -71,7 +71,7 @@ function createCookiesHours(openHr, closeHr, avgCookies, thisShop){
   //and cookie total for shop
   return [hrArr, cookieTotal];
 }
-
+/*
 //Helper function to build the unordered list
 function buildList(hoursArray, cTotal){
   var listItems = [];
@@ -87,6 +87,27 @@ function buildList(hoursArray, cTotal){
   var listItemsStr = '<ul><li>' + listItems.join('</li><li>') + '</li></ul>';
   return listItemsStr;
 }
+*/
+
+function buildList(hoursArray, shop_location){
+  var rowItems = [];
+  var headTHs = [];
+  //start the array witht the shop location
+  rowItems.push(shop_location);
+  //push empty string as palce holder for first header
+  headTHs.push('');
+  //loop through the array of hours and cookies arrays
+  for (var i = 0; i < hoursArray.length; i++){
+    //add all hourly lotals to array
+    rowItems.push(hoursArray[i][1]);
+    headTHs.push(hoursArray[i][0]);
+  }
+  //convert the array into HTML tr with tds
+  var rowItemsStr = '<tr><td>' + rowItems.join('</td><td>') + '</td></tr>';
+  var headTHsStr = '<tr><th>' + headTHs.join('</th><th>') + '</th></tr>';
+  return [rowItemsStr, headTHsStr];
+}
+
 
 //Define constructor for shop
 function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
@@ -98,7 +119,8 @@ function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, ho
   this.hour_close = hour_close;
   this.shop_hrs_cookies = [];
   this.totalCookies = '';
-  this.ul = '';
+  this.cookieRow = '';
+  this.hourRow = '';
 };
 
 Shop.prototype.randomCustomers = function(){
@@ -112,7 +134,9 @@ Shop.prototype.create_shop_hrs_cookies = function (){
 };
 
 Shop.prototype.create_list = function(){
-  this.ul = buildList(this.shop_hrs_cookies, this.totalCookies);
+  var buildList_data = buildList(this.shop_hrs_cookies, this.shopLocation);
+  this.cookieRow = buildList_data[0];
+  this.hourRow = buildList_data[1];
 };
 
 //create new shops
@@ -129,12 +153,57 @@ var section;
 
 if (document.title.toLowerCase().indexOf('sales') > 0){
   buildSalesPage();
+  /*
+  for (var i = 0; i < shops.length; i++){
+    shops[i].create_shop_hrs_cookies();
+    shops[i].create_list();
+  }
+  console.log(shops);
+  */
 }
 else{
-  buildStoreHours();
+//  buildStoreHours();
 }
 
+//sales-table
+function buildSalesPage(){
+  var tableRows = [];
+  var totals = ['Total']
+  //loop through each shop
+  // call the create_shop_hrs_cookies() method to build the array of shop hours and cookies
+  // call the  create_list(); method to bulid the unordered list as a string
+  for (var i = 0; i < shops.length; i++){
+    shops[i].create_shop_hrs_cookies();
+    shops[i].create_list();
 
+    tableRows.push(shops[i].cookieRow);
+    totals.push(shop[i].totalCookies);
+
+  }
+console.log('tableRows', tableRows);
+  //build the thead and headers with the first shop hourRow data
+  var tableHead = document.createElement('thead');
+  //build the inner html
+  tableHead.innerHTML = shops[0].hourRow;
+  console.log('tableHead', tableHead);
+  var salesTable = document.getElementById('sales-table');
+  salesTable.appendChild(tableHead);
+
+  var tableBody = document.createElement('tbody');
+  tableBody.innerHTML = tableRows.join('');
+  console.log('tableBody', tableBody);
+  salesTable.appendChild(tableBody);
+
+
+/*
+  section.innerHTML = shop_location + shops[i].ul;
+  var salesData_div = document.getElementById('sales-data');
+  //  document.body.appendChild(section);
+  salesData_div.appendChild(section);
+  */
+}
+
+/*
 function buildSalesPage(){
   //loop through each shop
   // call the create_shop_hrs_cookies() method to build the array of shop hours and cookies
@@ -154,6 +223,7 @@ function buildSalesPage(){
     salesData_div.appendChild(section);
   }
 }
+*/
 
 function buildStoreHours(){
   var locations = [];
