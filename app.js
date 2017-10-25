@@ -22,55 +22,55 @@ function randomCustomerGeneratior(min_num, max_num){
 
 //function to build  the array of arrays of hours and cookies sold
 //[['hour', 'number of cookies'], '['hour', 'number of cookies']'....]
-function createCookiesHours(openHr, closeHr, avgCookies, thisShop){
-  console.log('openHr: ', openHr, 'closeHr: ', closeHr);
-  console.log('thisShop: ', thisShop);
-  //convert opening and closing times to 24hr clock numbers
-  // use this as counter start and stop
-  var startHr = time24(openHr);
-  var stopHr = time24(closeHr);
-
-  //array to hold data to return to object method
-  var hrArr = [];
-  var amPm = 'am';
-  var cookiesPerHour;
-  var random_num;
-  var hrStr;
-  //cookie counter to push back to object method
-  var cookieTotal = 0;
-  for (var i = startHr; i <= stopHr; i++){
-    var hr12Num = i;
-    //convert i into 12 clock number
-    //13 = 1
-    if (i >= 12){
-      amPm = 'pm';
-      if (i != 12){
-        hr12Num = i - 12;
-      }
-    }
-
-    //add am or pm to hour
-    hrStr = hr12Num.toString() + amPm;
-
-    //the number needs to be random everytime
-    //thisShop refers to the object whose method called the function
-    random_num = thisShop.randomCustomers();
-
-    //convert partial cookies to whole cookies
-    cookiesPerHour = Math.ceil(avgCookies * random_num);
-    cookieTotal += cookiesPerHour;
-    console.log('hrStr', hrStr);
-    console.log('avgCookies: ', avgCookies);
-    console.log('thisShop.randomCustomers()', random_num);
-    console.log('cookiesPerHour', cookiesPerHour);
-
-    hrArr.push([hrStr, cookiesPerHour]);
-
-  }
-  //return array of an array of hours and cookiesPerHour
-  //and cookie total for shop
-  return [hrArr, cookieTotal];
-}
+// function createCookiesHours(openHr, closeHr, avgCookies, thisShop){
+//   console.log('openHr: ', openHr, 'closeHr: ', closeHr);
+//   console.log('thisShop: ', thisShop);
+//   //convert opening and closing times to 24hr clock numbers
+//   // use this as counter start and stop
+//   var startHr = time24(openHr);
+//   var stopHr = time24(closeHr);
+//
+//   //array to hold data to return to object method
+//   var hrArr = [];
+//   var amPm = 'am';
+//   var cookiesPerHour;
+//   var random_num;
+//   var hrStr;
+//   //cookie counter to push back to object method
+//   var cookieTotal = 0;
+//   for (var i = startHr; i <= stopHr; i++){
+//     var hr12Num = i;
+//     //convert i into 12 clock number
+//     //13 = 1
+//     if (i >= 12){
+//       amPm = 'pm';
+//       if (i != 12){
+//         hr12Num = i - 12;
+//       }
+//     }
+//
+//     //add am or pm to hour
+//     hrStr = hr12Num.toString() + amPm;
+//
+//     //the number needs to be random everytime
+//     //thisShop refers to the object whose method called the function
+//     random_num = thisShop.randomCustomers();
+//
+//     //convert partial cookies to whole cookies
+//     cookiesPerHour = Math.ceil(avgCookies * random_num);
+//     cookieTotal += cookiesPerHour;
+//     console.log('hrStr', hrStr);
+//     console.log('avgCookies: ', avgCookies);
+//     console.log('thisShop.randomCustomers()', random_num);
+//     console.log('cookiesPerHour', cookiesPerHour);
+//
+//     hrArr.push([hrStr, cookiesPerHour]);
+//
+//   }
+//   //return array of an array of hours and cookiesPerHour
+//   //and cookie total for shop
+//   return [hrArr, cookieTotal];
+// }
 
 //Helper function to build the table row
 function buildList(hoursArray, shop_location, daily_total){
@@ -102,7 +102,53 @@ function buildList(hoursArray, shop_location, daily_total){
   return [rowItemsStr, headTHsStr];
 }
 
+function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
+  this.shopLocation = shopLocation;
+  this.min_customer_hr = min_customer_hr;
+  this.max_customer_hr = max_customer_hr;
+  this.avg_cookies_hr = avg_cookies_hr;
+  //this.hour_open = hour_open;
+  //this.hour_close = hour_close;
+  this.shop_hours = {open: hour_open, close: hour_close};
+  this.shop_hours_array = [];
+  this.standard_hours = {open:'6am', close:'8pm'};
+  this.standard_hours_array = [];
+  //array of [[hour, cookies sold], [hour, cookies sold]...]
+  this.shop_hrs_cookies = [];
+  //total cookies sold in a day
+  this.totalCookies = '';
+  //string of tds to be put in a tr
+  this.cookieRow = '';
+  //string of html for header row <tr><td></td>,<td></td> ... </tr>
+  this.hourRow = '';
+  //sales.html table id
+  this.salesTableId = 'sales-table';
+  //index.html table id
+  this.homeTableId = 'store_locations';
+};
 
+//create random nnumber of customers
+Shop.prototype.randomCustomers = function(){
+  return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
+};
+
+Shop.prototype.create_store_hours_data = function(){
+  this.shop_hours_array = hours_array(this.shop_hours.open, this.shop_hours.close);
+  this.standard_hours_array = hours_array(this.standard_hours.open, this.standard_hours.close);
+  this.calc_cookies_per_hr();
+}
+
+//create array of shop hours based on open and close times
+//along with cookies per hour and total cookies per day
+Shop.prototype.calc_cookies_per_hr = function (){
+  var cookieData = createCookiesHours(this.shop_hours_array, this.standard_hours_array, this.avg_cookies_hr, this);
+  this.shop_hrs_cookies = cookieData[0];
+  this.totalCookies = cookieData[1];
+};
+
+
+//************
+/*
 //Define constructor for shop
 function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
   this.shopLocation = shopLocation;
@@ -125,6 +171,8 @@ function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, ho
   this.homeTableId = 'store_locations';
 };
 
+
+
 //create random nnumber of customers
 Shop.prototype.randomCustomers = function(){
   return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
@@ -137,6 +185,8 @@ Shop.prototype.create_shop_hrs_cookies = function (){
   this.shop_hrs_cookies = cookieData[0];
   this.totalCookies = cookieData[1];
 };
+
+*/
 
 //create html string of table data for table row
 Shop.prototype.create_list = function(){
@@ -167,18 +217,60 @@ Shop.prototype.insert_sales_row = function() {
   update_footer(theTable, this.shop_hrs_cookies, this.totalCookies);
 };
 
+
+/*
 //create new shops
 var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '6am', '8pm');
 var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
 var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '6am', '8pm');
 var shop_4 = new Shop('Capitol Hill', 20, 38, 2.3, '6am', '8pm');
 var shop_5 = new Shop('Alki', 2, 16, 4.6, '6am', '8pm');
-
+*/
 //create array of shops
-var shops = [shop_1, shop_2, shop_3, shop_4, shop_5];
+//var shops = [shop_1, shop_2, shop_3, shop_4, shop_5];
 
-console.log(shops);
+//shops[0].create_shop_hrs_cookies();
 
+//console.log('this_shop', shops[0]);
+
+var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '8am', '4pm');
+shop_1.create_store_hours_data();
+console.log('Hours: ',shop_1);
+
+
+function hours_array(openHr, closeHr){
+  console.log('openHr: ', openHr, 'closeHr: ', closeHr);
+  //convert opening and closing times to 24hr clock numbers
+  // use this as counter start and stop
+  var startHr = time24(openHr);
+  var stopHr = time24(closeHr);
+
+  //array to hold data to return to object method
+  var hrArr = [];
+  var amPm = 'am';
+  var hrStr;
+
+  for (var i = startHr; i <= stopHr; i++){
+    var hr12Num = i;
+    //convert i into 12 clock number
+    //13 = 1
+    if (i >= 12){
+      amPm = 'pm';
+      if (i != 12){
+        hr12Num = i - 12;
+      }
+    }
+    //add am or pm to hour
+    hrStr = hr12Num.toString() + amPm;
+    //console.log('hrStr: ',  hrStr);
+    hrArr.push(hrStr);
+  }
+  return hrArr;
+}
+
+//console.log(shops);
+
+/*
 //if the script is loaded on the sales page, create the salse table
 if (document.title.toLowerCase().indexOf('sales') > 0){
 
@@ -192,6 +284,7 @@ if (document.title.toLowerCase().indexOf('sales') > 0){
 else{
   buildStoreHours(shops[0].homeTableId);
 }
+*/
 
 //check the header
 function table_head_check(target_table, headerRow) {
@@ -278,7 +371,45 @@ function buildStoreHours(store_locations_id){
 /////////////////////////////////
 //////////////////////////////////
 
+/*
 console.log('shops: ',shops);
 console.log('window.location: ', window.location);
 console.log(document.title);
 console.log('document.title.toLowerCase().indexOf', document.title.toLowerCase().indexOf('sales'));
+*/
+
+
+
+function createCookiesHours(shopHours, standardHours, avgCookies, thisShop) {
+  var hours_cookies_array = [];
+  var cookieTotal = 0;
+  var cookiesPerHour;
+  var random_num;
+  var strDelim = '*'
+  var searchStr;
+  //create string to use to check the existance of an hour ie 3pm
+  var shopHours_search_string = strDelim + shopHours.join('*') + strDelim;
+  console.log('shopHours_search_string', shopHours_search_string);
+  for (var i = 0; i < standardHours.length; i++){
+    //check to see if the ShopHours array contains a standard hour
+    //if not then the store is closed at that hour
+    searchStr = strDelim + standardHours[i] + strDelim;
+    console.log('match? ', standardHours[i], shopHours_search_string.indexOf(searchStr));
+    if (shopHours_search_string.indexOf(searchStr) > 0) {
+      //the number needs to be random everytime
+      //thisShop refers to the object whose method called the function
+      random_num = thisShop.randomCustomers();
+
+      //convert partial cookies to whole cookies
+      cookiesPerHour = Math.ceil(avgCookies * random_num);
+      cookieTotal += cookiesPerHour;
+    } else {
+      cookiesPerHour = 'closed';
+    }
+    console.log('[standardHours[i], cookiesPerHour]', standardHours[i], cookiesPerHour)
+    hours_cookies_array.push([standardHours[i], cookiesPerHour]);
+  }
+  //return array of an array of hours and cookiesPerHour
+  //and cookie total for shop
+  return [hours_cookies_array, cookieTotal];
+}
