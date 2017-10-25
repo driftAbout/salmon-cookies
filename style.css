@@ -186,9 +186,29 @@ tfoot tr {
 }
 
 
+footer {
+  position:fixed;
+  bottom:0;
+  width:100%;
+  text-align: center;
+  color: #f6e7be;
+  height:100px;
+  background: #342926;
+  border-top: #caa767 4px solid;
+  border-bottom: #caa767 4px solid;
+}
 
+footer h2 {
+  margin:15px;
+  font-size: 30px;
+}
 
-/*
+footer p {
+  font-size: 20px;
+}
+
+/************************************/
+/* Still Using on Index.html for now*/
 section p {
   font-size: 22px;
   margin: 20px 0 0 20px;
@@ -202,13 +222,6 @@ section li {
   border-radius:3px;
 }
 
-#sales-data section li:last-child{
-  margin-top:20px;
-  font-weight:bold;
-  color: #f6e7be;
-  background-color: #342926;
-}
-
 section li:nth-child(odd){
   background:#f6e7be;
 }
@@ -216,9 +229,14 @@ section li:nth-child(odd){
 section ul {
   margin:20px;
 }
-#store_locations {
-  float:none;
-  margin:200px auto;
+
+#store_locations{
+  background:#b9a656;
+  color:#342926;
+  border-radius:3px;
+  box-shadow: #999 1px 1px 5px 0;
+  position: relative;
+  margin:100px auto;
   width: 470px;
   padding:20px;
 }
@@ -255,25 +273,6 @@ section ul {
 .clearFix{
   clear:both;
   margin-bottom:140px;
-}*/
-
-footer {
-  position:fixed;
-  bottom:0;
-  width:100%;
-  text-align: center;
-  color: #f6e7be;
-  height:100px;
-  background: #342926;
-  border-top: #caa767 4px solid;
-  border-bottom: #caa767 4px solid;
 }
-
-footer h2 {
-  margin:15px;
-  font-size: 30px;
-}
-
-footer p {
-  font-size: 20px;
-}
+/***************/
+/***************/
