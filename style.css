@@ -2,6 +2,7 @@
 
 body {
     background: #f6e7be;
+    height: 100vh;
 }
 
 p,h2{
@@ -209,7 +210,18 @@ footer p {
 
 /* form style*/
 
+.table_editor_wrap{
+  margin: 0 auto;
+  width: 400px;
+  position: relative;
+
+}
+
 #table_editor{
+  bottom: -380px;
+  z-index: 11;
+  position: absolute;
+  display: none;
   background:#b9a656;
   margin:40px auto;
   color:#342926;
@@ -316,6 +328,20 @@ input[type="text"]:focus{
   #cancel_btn{
     background: #888;
     color:#333;
+  }
+
+  #open_editor_btn{
+    background: #888;
+    color: #333;
+    padding: 8px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    margin-right: 60px;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    float: right;
   }
 
 /************************************/

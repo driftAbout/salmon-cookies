@@ -2,22 +2,10 @@
 
 var sales_table_ref = document.getElementById('sales-table');
 var locations_table_ref = document.getElementById('store_locations');
+var admin_form = document.getElementById('admin_form');
 var new_tHead;
 var new_tBody;
 var new_table_row;
-var new_tFoot;
-
-var cancel_btn = document.getElementById('cancel_btn');
-console.log('cancel_btn',cancel_btn)
-cancel_btn.addEventListener('click', closeEditor);
-function closeEditor(event){
-    event.preventDefault();
-  var edit_window = document.getElementById('table_editor');
-  console.log(edit_window);
-  edit_window.style.display = 'none';
-}
-
-close
 
 function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
   this.shopLocation = shopLocation;
@@ -52,7 +40,7 @@ Shop.prototype.create_store_hours_data = function(){
   this.standard_hours_array = hours_array(this.standard_hours.open, this.standard_hours.close);
   this.calc_cookies_per_hr();
   this.create_row_data();
-}
+};
 
 //create array of shop hours based on open and close times
 //along with cookies per hour and total cookies per day
@@ -80,7 +68,134 @@ Shop.prototype.insert_sales_row = function() {
   //add the data string to the row
   newRow.innerHTML = this.cookie_td_str;
   //get a reference to the table using id
-  var theTable = document.getElementById(this.salesTableId);sales-table
+  var theTable = document.getElementById(this.salesTableId);
+  //check to see if the table head was created, if not create it
+  table_head_check(theTable, this.headerRow);
+  //make sure there is a table body, if not tehn create it
+  var tableBody = table_body_check(theTable);
+  //add the row to the table on the page
+  tableBody.appendChild(newRow);
+  //update the foot if it exist with new totals, create if missing
+  //update_footer(theTable, this.shop_hrs_cookies, this.totalCookies);
+};
+
+var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '6am', '7pm');
+var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
+var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '8am', '6pm');
+
+
+var shops = [shop_1, shop_2, shop_3];
+console.log('shops:', shops);
+build_sales_table();
+
+
+var cancel_btn = document.getElementById('cancel_btn');
+cancel_btn.addEventListener('click', closeEditor);
+
+var open_editor_btn = document.getElementById('open_editor_btn');
+open_editor_btn.addEventListener('click', openEditor);
+
+function closeEditor(event) {
+  event.preventDefault();
+  var edit_window = document.getElementById('table_editor');
+  edit_window.style.display = 'none';
+  document.getElementsByClassName('sales-data')[0].style.opacity = 1;
+}
+function openEditor(event) {
+  event.preventDefault();
+  var edit_window = document.getElementById('table_editor');
+  document.getElementsByClassName('sales-data')[0].style.opacity = .5;
+  edit_window.style.display = 'block';
+
+}
+
+function get_form_data(event) {
+  //do not run default action of event
+  event.preventDefault();
+  var storeLocation = event.target.store_location.value;
+  var open_hr = event.target.open.value;
+  var close_hr = event.target.close.value;
+  var minimumCustomers = event.target.min_customers.value;
+  var maximumCustomers = event.target.max_customers.value;
+  var average_cookies = event.target.average_cookies.value;
+
+  var newShop = new Shop(storeLocation, minimumCustomers, maximumCustomers, average_cookies, open_hr, close_hr);
+  console.log(newShop);
+  shops.push(newShop);
+
+  //create our table here
+  build_sales_table();
+  //reset the form data
+  admin_form.reset();
+  cancel_btn.textContent = 'Close';
+
+}
+
+admin_form.addEventListener('submit', get_form_data);
+
+
+function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
+  this.shopLocation = shopLocation;
+  this.min_customer_hr = min_customer_hr;
+  this.max_customer_hr = max_customer_hr;
+  this.avg_cookies_hr = avg_cookies_hr;
+  this.shop_hours = {open: hour_open, close: hour_close};
+  this.shop_hours_array = [];
+  this.standard_hours = {open:'6am', close:'8pm'};
+  this.standard_hours_array = [];
+  //array of [[hour, cookies sold], [hour, cookies sold]...]
+  this.shop_hrs_cookies = [];
+  //total cookies sold in a day
+  this.totalCookies = '';
+  //string of tds to be put in a tr
+  this.cookie_td_str = '';
+  //string of html for header row <tr><td></td>,<td></td> ... </tr>
+  this.headerRow = '';
+  //sales.html table id
+  //this.salesTableId = 'sales-table';
+  //index.html table id
+  //this.homeTableId = 'store_locations';
+};
+
+//create random nnumber of customers
+Shop.prototype.randomCustomers = function(){
+  return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
+};
+
+Shop.prototype.create_store_hours_data = function(){
+  this.shop_hours_array = hours_array(this.shop_hours.open, this.shop_hours.close);
+  this.standard_hours_array = hours_array(this.standard_hours.open, this.standard_hours.close);
+  this.calc_cookies_per_hr();
+  this.create_row_data();
+};
+
+//create array of shop hours based on open and close times
+//along with cookies per hour and total cookies per day
+Shop.prototype.calc_cookies_per_hr = function (){
+  var cookieData = createCookiesHours(this.shop_hours_array, this.standard_hours_array, this.avg_cookies_hr, this);
+  this.shop_hrs_cookies = cookieData[0];
+  this.totalCookies = cookieData[1];
+};
+
+//create html string of table data for table row
+Shop.prototype.create_row_data = function(){
+  var row_data = build_table_row(this.shop_hrs_cookies, this.standard_hours_array, this.shopLocation, this.totalCookies);
+  this.cookie_td_str = row_data[0];
+  this.headerRow = row_data[1];
+};
+
+//insert table data row on the  page
+Shop.prototype.insert_sales_row = function() {
+  //calulate the cookies per hour
+  this.create_store_hours_data();
+  //create the data string for the row
+  this.create_row_data();
+  //create the new row for the the data string
+  var newRow = document.createElement('tr');
+  //add the data string to the row
+  newRow.innerHTML = this.cookie_td_str;
+  //get a reference to the table using id
+  var theTable = document.getElementById(this.salesTableId);
   //check to see if the table head was created, if not create it
   table_head_check(theTable, this.headerRow);
   //make sure there is a table body, if not tehn create it
@@ -107,16 +222,16 @@ var shop_5 = new Shop('Alki', 2, 16, 4.6, '6am', '8pm');
 
 //console.log('this_shop', shops[0]);
 
-var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '8am', '4pm');
-var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
-var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '6am', '8pm');
+//var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '8am', '4pm');
+//var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
+//var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '6am', '8pm');
 
 
-var shops = [shop_1, shop_2, shop_3];
-build_sales_table();
+//var shops = [shop_1, shop_2, shop_3];
+//build_sales_table();
 
-shops.push(new Shop('Capitol Hill', 20, 38, 2.3, '6am', '8pm'), new Shop('Alki', 2, 16, 4.6, '6am', '8pm'));
-build_sales_table();
+//shops.push(new Shop('Capitol Hill', 20, 38, 2.3, '6am', '8pm'), new Shop('Alki', 2, 16, 4.6, '6am', '8pm'));
+//build_sales_table();
 
 
 function build_sales_table(){
@@ -142,7 +257,7 @@ function build_table_header(){
 }
 
 function build_table_body(){
-  new_tBody = sales_table_ref.getElementsByTagName('tbody')
+  new_tBody = sales_table_ref.getElementsByTagName('tbody');
   if (! new_tBody.length){
     new_tBody = document.createElement('tbody');
   } else {
@@ -176,17 +291,17 @@ function get_column_totals(){
   //  console.log('column: ', column);
     columnTotal = 0;
     for (var i = 0; i < sales_table_rows.length; i++){
-      tr_tds = sales_table_rows[i].getElementsByTagName('td')
-    //  console.log('td_value', tr_tds[column].textContent)
+      tr_tds = sales_table_rows[i].getElementsByTagName('td');
+      //console.log('td_value', tr_tds[column].textContent)
 
-      td_value = parseInt(tr_tds[column].textContent)
+      td_value = parseInt(tr_tds[column].textContent);
       if (isNaN(td_value)) {
         td_value = 0;
       }
-      columnTotal += td_value
+      columnTotal += td_value;
     //  console.log('totals: ', column, columnTotal)
     }
-      hourly_totals.push(columnTotal);
+    hourly_totals.push(columnTotal);
   }
   console.log('hourly_totals', hourly_totals);
   return hourly_totals;
@@ -276,15 +391,15 @@ function table_body_check(theTable) {
 function update_footer(hourTotals){
   var theFoot = sales_table_ref.getElementsByTagName('tfoot');
   if (theFoot.length === 0 ){
-     var newFoot = document.createElement('tfoot');
-     theFoot = sales_table_ref.appendChild(newFoot);
+    var newFoot = document.createElement('tfoot');
+    theFoot = sales_table_ref.appendChild(newFoot);
   } else {
     theFoot = theFoot[0];
   }
-    var tfoot_row_string = '<tr><td>' + hourTotals.join('</td><td>') + '</td></tr>';
-    console.log('footer rowString: ', tfoot_row_string);
-    theFoot.innerHTML = tfoot_row_string;
-    //theFoot = sales_table_ref.appendChild(newFoot);
+  var tfoot_row_string = '<tr><td>' + hourTotals.join('</td><td>') + '</td></tr>';
+  console.log('footer rowString: ', tfoot_row_string);
+  theFoot.innerHTML = tfoot_row_string;
+  //theFoot = sales_table_ref.appendChild(newFoot);
 
 }
 
@@ -334,7 +449,7 @@ function createCookiesHours(shopHours, standardHours, avgCookies, thisShop) {
   var cookieTotal = 0;
   var cookiesPerHour;
   var random_num;
-  var strDelim = '*'
+  var strDelim = '*';
   var searchStr;
   //create string to use to check the existance of an hour ie 3pm
   var shopHours_search_string = strDelim + shopHours.join('*') + strDelim;
@@ -342,7 +457,7 @@ function createCookiesHours(shopHours, standardHours, avgCookies, thisShop) {
     //check to see if the ShopHours array contains a standard hour
     //if not then the store is closed at that hour
     searchStr = strDelim + standardHours[i] + strDelim;
-  //  console.log('match? ', standardHours[i], shopHours_search_string.indexOf(searchStr));
+    //console.log('match? ', standardHours[i], shopHours_search_string.indexOf(searchStr));
     if (shopHours_search_string.indexOf(searchStr) > -1) {
       //the number needs to be random everytime
       //thisShop refers to the object whose method called the function
@@ -354,7 +469,7 @@ function createCookiesHours(shopHours, standardHours, avgCookies, thisShop) {
     } else {
       cookiesPerHour = 'closed';
     }
-  //  console.log('[standardHours[i], cookiesPerHour]', standardHours[i], cookiesPerHour);
+    //  console.log('[standardHours[i], cookiesPerHour]', standardHours[i], cookiesPerHour);
     hours_cookies_array.push([standardHours[i], cookiesPerHour]);
   }
   //return array of an array of hours and cookiesPerHour
