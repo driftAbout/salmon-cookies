@@ -6,6 +6,7 @@ var admin_form = document.getElementById('admin_form');
 var new_tHead;
 var new_tBody;
 var new_table_row;
+var shops = [];
 
 //Create Shop Object constructor
 function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
@@ -22,7 +23,7 @@ function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, ho
   //array of [[hour, cookies sold], [hour, cookies sold]...]
   this.shop_hrs_cookies = [];
   //total cookies sold in a day
-  this.totalCookies = '';
+  this.totalCookies = 0;
   //string of tds to be put in a tr
   this.cookie_td_str = '';
   //string of html for header row <tr><td></td>,<td></td> ... </tr>
@@ -31,7 +32,9 @@ function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, ho
 
 //create random nnumber of customers
 Shop.prototype.randomCustomers = function(){
-  return randomCustomerGeneratior(this.min_customer_hr, this.max_customer_hr);
+    var min_num = this.min_customer_hr;
+    var max_num = this.max_customer_hr;
+    return Math.floor((Math.random() * (max_num - min_num)) + min_num);
 };
 
 //populate the properties for use in tabel creation
@@ -49,53 +52,89 @@ Shop.prototype.create_store_hours_data = function(){
 //create array of shop hours based on open and close times
 //along with cookies per hour and total cookies per day
 Shop.prototype.calc_cookies_per_hr = function (){
-  var cookieData = createCookiesHours(this.shop_hours_array, this.standard_hours_array, this.avg_cookies_hr, this);
-  this.shop_hrs_cookies = cookieData[0];
-  this.totalCookies = cookieData[1];
+  //var cookieData = createCookiesHours(this.shop_hours_array, this.standard_hours_array, this.avg_cookies_hr, this);
+  //this.shop_hrs_cookies = cookieData[0];
+  //this.totalCookies = cookieData[1];
+};
+
+//Shop.prototype.createCookiesHours = function(){
+Shop.prototype.calc_cookies_per_hr = function (){
+  var shopHours = this.shop_hours_array;
+  var standardHours = this.standard_hours_array;
+  var avgCookies = this.avg_cookies_hr;
+  var cookiesPerHour;
+  var random_num;
+  var strDelim = '*';
+  var searchStr;
+
+  //create string to use to check the existance of an hour ie 3pm
+  var shopHours_search_string = strDelim + shopHours.join('*') + strDelim;
+  for (var i = 0; i < standardHours.length; i++){
+    //check to see if the ShopHours array contains a standard hour
+    //if not then the store is closed at that hour
+    searchStr = strDelim + standardHours[i] + strDelim;
+    //console.log('match? ', standardHours[i], shopHours_search_string.indexOf(searchStr));
+    if (shopHours_search_string.indexOf(searchStr) > -1) {
+      //the number needs to be random everytime
+      //thisShop refers to the object whose method called the function
+      random_num = this.randomCustomers();
+
+      //convert partial cookies to whole cookies
+      cookiesPerHour = Math.ceil(avgCookies * random_num);
+      this.totalCookies += cookiesPerHour;
+    } else {
+      cookiesPerHour = 'closed';
+    }
+    //  console.log('[standardHours[i], cookiesPerHour]', standardHours[i], cookiesPerHour);
+    this.shop_hrs_cookies.push([standardHours[i], cookiesPerHour]);
+  }
 };
 
 //create html string of table data for table row
 Shop.prototype.create_row_data = function(){
-  var row_data = build_table_row(this.shop_hrs_cookies, this.standard_hours_array, this.shopLocation, this.totalCookies);
-  this.cookie_td_str = row_data[0];
-  this.headerRow = row_data[1];
+  var hoursArray = this.shop_hrs_cookies;
+  var stand_HrsArr = this.standard_hours_array;
+  var rowItems = [];
+  var headTHs = [];
+
+  //start the array witht the shop location
+  rowItems.push(this.shopLocation);
+
+  //push empty string as palce holder for first cell in header which is empty
+  headTHs.push('');
+
+  //loop through the array of hours and cookies arrays
+  for (var i = 0; i < stand_HrsArr.length; i++){
+    //add all hourly lotals to array
+    rowItems.push(hoursArray[i][1]);
+    //add each hout to the header array
+    headTHs.push(stand_HrsArr[i]);
+  }
+
+  //add daily total quantity to the end of the array
+  rowItems.push(this.totalCookies);
+  //convert the array into HTML string with with tds
+  var rowItemsStr = '<td>' + rowItems.join('</td><td>') + '</td>';
+  //add daily totals header label to the end of the array
+  headTHs.push('Daily Totals');
+  //create the header row html string
+  var headTHsStr = '<tr><th>' + headTHs.join('</th><th>') + '</th></tr>';
+
+  this.cookie_td_str = rowItemsStr;
+  this.headerRow = headTHsStr;
 };
 
 //fill the table with a few shops to start
-var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '6am', '7pm');
-var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
-var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '8am', '6pm');
+function init_table_data(){
+  var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '6am', '7pm');
+  var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
+  var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '8am', '6pm');
 
-//create array to hold all shops
-var shops = [shop_1, shop_2, shop_3];
-console.log('shops:', shops);
-//build out the table with initial data
-build_sales_table();
-
-//button to close the add new store form
-var cancel_btn = document.getElementById('cancel_btn');
-//bind click to cancel button
-cancel_btn.addEventListener('click', closeEditor);
-
-//button to open add new store window
-var open_editor_btn = document.getElementById('open_editor_btn');
-//bind click to open add new store window
-open_editor_btn.addEventListener('click', openEditor);
-
-//function to close add new store window
-function closeEditor(event) {
-  event.preventDefault();
-  var edit_window = document.getElementById('table_editor');
-  edit_window.style.display = 'none';
-  document.getElementsByClassName('sales-data')[0].style.opacity = 1;
-}
-//function to open add new store window
-function openEditor(event) {
-  event.preventDefault();
-  var edit_window = document.getElementById('table_editor');
-  document.getElementsByClassName('sales-data')[0].style.opacity = .5;
-  edit_window.style.display = 'block';
-
+  //create array to hold all shops
+  shops = [shop_1, shop_2, shop_3];
+  console.log('shops:', shops);
+  //build out the table with initial data
+  build_sales_table();
 }
 
 //function to get form data
@@ -285,68 +324,29 @@ function hours_array(openHr, closeHr){
   return hrArr;
 }
 
-function createCookiesHours(shopHours, standardHours, avgCookies, thisShop) {
-  var hours_cookies_array = [];
-  var cookieTotal = 0;
-  var cookiesPerHour;
-  var random_num;
-  var strDelim = '*';
-  var searchStr;
-  //create string to use to check the existance of an hour ie 3pm
-  var shopHours_search_string = strDelim + shopHours.join('*') + strDelim;
-  for (var i = 0; i < standardHours.length; i++){
-    //check to see if the ShopHours array contains a standard hour
-    //if not then the store is closed at that hour
-    searchStr = strDelim + standardHours[i] + strDelim;
-    //console.log('match? ', standardHours[i], shopHours_search_string.indexOf(searchStr));
-    if (shopHours_search_string.indexOf(searchStr) > -1) {
-      //the number needs to be random everytime
-      //thisShop refers to the object whose method called the function
-      random_num = thisShop.randomCustomers();
+//button to close the add new store form
+var cancel_btn = document.getElementById('cancel_btn');
+//bind click to cancel button
+cancel_btn.addEventListener('click', closeEditor);
 
-      //convert partial cookies to whole cookies
-      cookiesPerHour = Math.ceil(avgCookies * random_num);
-      cookieTotal += cookiesPerHour;
-    } else {
-      cookiesPerHour = 'closed';
-    }
-    //  console.log('[standardHours[i], cookiesPerHour]', standardHours[i], cookiesPerHour);
-    hours_cookies_array.push([standardHours[i], cookiesPerHour]);
-  }
-  //return array of an array of hours and cookiesPerHour
-  //and cookie total for shop
-  return [hours_cookies_array, cookieTotal];
+//button to open add new store window
+var open_editor_btn = document.getElementById('open_editor_btn');
+//bind click to open add new store window
+open_editor_btn.addEventListener('click', openEditor);
+
+//function to close add new store window
+function closeEditor(event) {
+  event.preventDefault();
+  var edit_window = document.getElementById('table_editor');
+  edit_window.style.display = 'none';
+  document.getElementsByClassName('sales-data')[0].style.opacity = 1;
 }
-
-
-//Helper function to build the table row
-function build_table_row(hoursArray, stand_HrsArr, shop_location, daily_total){
-  var rowItems = [];
-  var headTHs = [];
-  //start the array witht the shop location
-  rowItems.push(shop_location);
-
-  //push empty string as palce holder for first cell in header which is empty
-  headTHs.push('');
-
-  //loop through the array of hours and cookies arrays
-  for (var i = 0; i < stand_HrsArr.length; i++){
-    //add all hourly lotals to array
-    rowItems.push(hoursArray[i][1]);
-    //add each hout to the header array
-    headTHs.push(stand_HrsArr[i]);
-  }
-
-  //add daily total quantity to the end of the array
-  rowItems.push(daily_total);
-  //convert the array into HTML string with with tds
-  var rowItemsStr = '<td>' + rowItems.join('</td><td>') + '</td>';
-  //add daily totals header label to the end of the array
-  headTHs.push('Daily Totals');
-  //create the header row html string
-  var headTHsStr = '<tr><th>' + headTHs.join('</th><th>') + '</th></tr>';
-
-  return [rowItemsStr, headTHsStr];
+//function to open add new store window
+function openEditor(event) {
+  event.preventDefault();
+  var edit_window = document.getElementById('table_editor');
+  document.getElementsByClassName('sales-data')[0].style.opacity = .5;
+  edit_window.style.display = 'block';
 }
 
 ////////////////////////////
@@ -369,3 +369,6 @@ function buildStoreHours(store_locations_section){
 }
 /////////////////////////////////
 //////////////////////////////////
+
+
+init_table_data();
