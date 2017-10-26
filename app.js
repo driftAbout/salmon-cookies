@@ -98,13 +98,18 @@ var shop_5 = new Shop('Alki', 2, 16, 4.6, '6am', '8pm');
 var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '8am', '4pm');
 var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
 var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '6am', '8pm');
-var shop_4 = new Shop('Capitol Hill', 20, 38, 2.3, '6am', '8pm');
-var shop_5 = new Shop('Alki', 2, 16, 4.6, '6am', '8pm');
 
-var shops = [shop_1, shop_2, shop_3, shop_4, shop_5];
+
+var shops = [shop_1, shop_2, shop_3];
 build_sales_table();
 
+shops.push(new Shop('Capitol Hill', 20, 38, 2.3, '6am', '8pm'), new Shop('Alki', 2, 16, 4.6, '6am', '8pm'));
+build_sales_table();
+
+
 function build_sales_table(){
+  //reset table
+  sales_table_ref.innerHTML = '';
   create_all_store_data();
   build_table_header();
   build_table_body();
