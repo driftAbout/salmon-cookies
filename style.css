@@ -207,6 +207,117 @@ footer p {
   font-size: 20px;
 }
 
+/* form style*/
+
+#table_editor{
+  background:#b9a656;
+  margin:40px auto;
+  color:#342926;
+  border-radius:3px;
+  box-shadow: #999 1px 1px 5px 0;
+  width:400px;
+  padding:10px;
+}
+
+form{
+  margin:0 auto;
+  /*border: 2px solid #555;
+  border-radius: 5px;*/
+  padding:20px;
+  width:300px;
+
+}
+
+.form_border{
+  border: 2px solid #555;
+  border-radius: 5px;
+  margin:15px auto;
+  width:300px;
+  padding-left:15px;
+  padding-top:15px;
+}
+
+fieldset {
+  padding:10px;
+  border: 0;
+  margin-bottom:10px;
+}
+
+fieldset div{
+  margin-right:30px;
+  float: left;
+}
+
+fieldset:last-child{
+  width:315px;
+  margin:0;
+}
+
+label{
+  font-weight: bold;
+  font-size: 18px;
+  display: block;
+  padding-bottom: 2px;
+}
+
+input{
+  margin-top:7px;
+}
+
+select {
+  margin-top:7px;
+  width:110px;
+  height:22px;
+  margin-bottom:10px;
+}
+
+input[type="text"]{
+  padding: 7px;
+  border: solid 1px #333;
+  border-radius:  3px;
+  width:240px;
+  height:32px;
+  font-size: 14px;
+  margin-top: 7px;
+}
+
+input[type="number"]{
+  padding: 7px;
+  border: solid 1px #333;
+  border-radius:  3px;
+  width:220px;
+  height:16px;
+  font-size: 14px;
+  margin-top: 7px;
+  margin-bottom: 20px;
+}
+
+
+
+/*
+input[type="text"]:focus{
+  background: #000;
+  color: #FFF;
+  }
+*/
+  button {
+    padding:10px;
+    border-radius:3px;
+    border: none;
+    cursor: pointer;
+    margin-right:10px;
+    float: right;
+    color: #f6e7be;
+    background: #342926;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  #cancel_btn{
+    background: #888;
+    color:#333;
+  }
+
 /************************************/
 /* Still Using on Index.html for now*/
 section p {

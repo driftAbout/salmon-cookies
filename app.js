@@ -7,6 +7,18 @@ var new_tBody;
 var new_table_row;
 var new_tFoot;
 
+var cancel_btn = document.getElementById('cancel_btn');
+console.log('cancel_btn',cancel_btn)
+cancel_btn.addEventListener('click', closeEditor);
+function closeEditor(event){
+    event.preventDefault();
+  var edit_window = document.getElementById('table_editor');
+  console.log(edit_window);
+  edit_window.style.display = 'none';
+}
+
+close
+
 function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, hour_open, hour_close) {
   this.shopLocation = shopLocation;
   this.min_customer_hr = min_customer_hr;
@@ -25,9 +37,9 @@ function Shop(shopLocation, min_customer_hr, max_customer_hr, avg_cookies_hr, ho
   //string of html for header row <tr><td></td>,<td></td> ... </tr>
   this.headerRow = '';
   //sales.html table id
-  this.salesTableId = 'sales-table';
+  //this.salesTableId = 'sales-table';
   //index.html table id
-  this.homeTableId = 'store_locations';
+  //this.homeTableId = 'store_locations';
 };
 
 //create random nnumber of customers
