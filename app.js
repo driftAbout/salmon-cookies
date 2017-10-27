@@ -143,7 +143,7 @@ Shop.prototype.create_row_data = function(){
 //fill the table with a few shops to start
 function init_table_data(){
   var shop_1 = new Shop('1st and Pike', 23, 65, 6.3, '6am', '7pm');
-  var shop_2 = new Shop('SeaTac Airport', 33, 24, 1.2, '6am', '8pm');
+  var shop_2 = new Shop('SeaTac Airport', 24, 33, 1.2, '6am', '8pm');
   var shop_3 = new Shop('Seattle Center', 11, 38, 3.7, '8am', '6pm');
 
   //create array to hold all shops
@@ -245,8 +245,8 @@ function get_column_totals(){
   }
   //add daily totals
   columnTotal = 0;
-  for (var i = 0; i < shops.length; i++){
-    columnTotal += shops[i].totalCookies;
+  for (var j = 0; j < shops.length; j++) {
+    columnTotal += shops[j].totalCookies;
   }
   hourly_totals.push(columnTotal);
 
@@ -298,7 +298,7 @@ function closeEditor(event) {
 }
 //function to open add new store window
 function openEditor(event) {
-  console.log('open editoe')
+  console.log('open editoe');
   get_shop_edit_data('edit_store');
   event.preventDefault();
   var edit_window = document.getElementById('table_editor');
@@ -322,14 +322,14 @@ function toggle_editor_tabs(e){
 
   if (e.target.id === 'right_tab'){
     submitText = document.getElementById('submit_btn').textContent;
-    console.log('submitText', submitText)
+    console.log('submitText', submitText);
     //css reveals dropdown
-    document.getElementById('submit_btn').textContent = 'Save Changes'
+    document.getElementById('submit_btn').textContent = 'Save Changes';
     document.getElementById('edit_store').classList.add('active');
 
   } else {
     document.getElementById('edit_store').classList.remove('active');
-    document.getElementById('submit_btn').textContent = submitText
+    document.getElementById('submit_btn').textContent = submitText;
   }
 }
 
@@ -337,38 +337,48 @@ var edit_store_ul = document.getElementById('edit_store');
 edit_store_ul.addEventListener('click', toggle_edit_li);
 
 function toggle_edit_li(e){
-  console.log('e.target', e.target)
+  console.log('e.target', e.target);
   console.log('lis: ', e.target.parentNode.getElementsByTagName('li').length);
   e.target.parentNode.classList.toggle('show_li');
   console.log('clicked li text', e.target.innerHTML);
-  console.log('first li: ', e.target.parentNode.getElementsByTagName('li')[0].innerHTML)
-  var li_arr = e.target.parentNode.getElementsByTagName('li')
+  console.log('first li: ', e.target.parentNode.getElementsByTagName('li')[0].innerHTML);
+  var li_arr = e.target.parentNode.getElementsByTagName('li');
   for (var indx = 0; indx < li_arr.length; indx++){
-    console.log('This Li', li_arr[indx].innerHTML)
+
     if(e.target.innerHTML === li_arr[indx].innerHTML){
       var li_index = indx - 1;
+      console.log('This Li', li_arr[indx].innerHTML, indx);
     }
   }
-console.log('li_index', li_index);
+  console.log('li_index', li_index);
   console.log('clicked Li:' , li_index);
   if (e.target.innerHTML != li_arr[0].innerHTML){
     //currentShops[li_index]
     var store_input = document.getElementsByName('store_location');
     var open_input = document.getElementsByName('open');
     open_input[0].value = currentShops[li_index].open;
-    var close_input = document.getElementsByName('close')
+    var close_input = document.getElementsByName('close');
     close_input[0].value = currentShops[li_index].close;
     var min_customers_input = document.getElementsByName('min_customers');
     min_customers_input[0].value = currentShops[li_index].min_customer_hr;
-    var max_customers_input = document.getElementsByName('max_customers')
+    var max_customers_input = document.getElementsByName('max_customers');
     max_customers_input[0].value = currentShops[li_index].max_customer_hr;
-    var average_cookies_input = document.getElementsByName('average_cookies')
+    var average_cookies_input = document.getElementsByName('average_cookies');
     average_cookies_input[0].value = currentShops[li_index].avg_cookies_hr;
     console.log('store_input', store_input[0]);
     store_input[0].value = currentShops[li_index].shopLocation;
-    //shops.remove(li_index); 
+    //shops.remove(li_index);
+    var editShops = [];
+    for (var i = 0; i < shops.length; i++){
+      if( i != li_index){
+        console.log(i, li_index);
+        editShops.push(shops[i]);
+      }
+    }
+    shops = editShops;
     e.target.parentNode.classList.toggle('show_li');
-    e.target.parentNode.classList.toggle('active')
+    e.target.parentNode.classList.toggle('active');
+    left_tab_btn.click();
   }
 
   //var choices = e.target.parentNode.getElementsByTagName('li');
@@ -380,21 +390,21 @@ console.log('li_index', li_index);
 }
 
 function get_shop_edit_data(ul_id){
-  console.log('shops here', shops)
+  console.log('shops here', shops);
   for (var i = 0; i < shops.length; i++){
-    console.log('store_location: ', shops[i].shopLocation)
-    currentShops.push(new  Shop_form_data(shops[i], ul_id));
+    console.log('store_location: ', shops[i].shopLocation);
+    currentShops.push(new Shop_form_data(shops[i], ul_id));
   }
 }
 
 function Shop_form_data(this_shop, ul_id){
-  this.shopLocation = this_shop.shopLocation
+  this.shopLocation = this_shop.shopLocation;
   this.min_customer_hr = this_shop.min_customer_hr;
   this.max_customer_hr = this_shop.max_customer_hr;
   this.avg_cookies_hr = this_shop.avg_cookies_hr;
   this.open = this_shop.shop_hours.open;
   this.close = this_shop.shop_hours.close;
-  this.ul_id = ul_id
+  this.ul_id = ul_id;
   this.makeli();
   this.append_li();
 }
@@ -406,9 +416,7 @@ Shop_form_data.prototype.makeli = function(){
 
 Shop_form_data.prototype.append_li = function(){
   document.getElementById(this.ul_id).appendChild(this.li_tag);
-}
-
-
+};
 
 ////////////////////////////
 //still using on index.html

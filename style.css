@@ -4,6 +4,9 @@ body {
     background: #f6e7be;
     height: 100vh;
 }
+.index_page{
+  background-image: url('images/prd_032917.jpg');
+}
 
 p,h2{
   font-family: Georgia;
@@ -29,7 +32,7 @@ header .logo-img-wrap {
 header .logo-img {
   position: absolute;
   top: -60px;
-  background-image: url('salmon.png');
+  background-image: url('images/salmon.png');
   background-position: 165px 40px;
   background-size: 660px;
   background-repeat: no-repeat;
@@ -451,6 +454,7 @@ section ul {
   margin:100px auto;
   width: 470px;
   padding:20px;
+  display:none;
 }
 
 #store_locations ul{
@@ -460,6 +464,7 @@ section ul {
 
 #store_locations li{
   font-size: 24px;
+
 }
 #store_locations span:first-child{
   width: 200px;
@@ -485,6 +490,97 @@ section ul {
 .clearFix{
   clear:both;
   margin-bottom:140px;
+}
+
+.circles{
+width: 100px;
+height: 100px;
+border-radius: 100px;
+border: 2px solid #342926;
+float: left;
+margin: 10px;
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+box-shadow: #b9a656 2px 2px 0px 2px, #b9a656 -2px -2px 0px 2px, #b9a656 -2px 2px 0px 2px, #b9a656 2px -2px 0px 2px;
+margin-top: 40px;
+position:relative;
+}
+
+.circles p{
+  position:absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  opacity:0;
+  transition: 350ms;
+}
+
+.circles p:hover{
+  color: #f6e7be;
+  font-size:30px;
+  opacity:1;
+  text-shadow: 5px 5px 50px #000, 5px 5px 50px #000, 5px 5px 50px #000, 5px 5px 50px #000;
+  z-index: 9;
+}
+
+nav{
+  position:relative;
+  width: 1168px;
+  margin:0 auto;
+}
+
+nav section{
+  position:absolute;
+}
+nav .left_nav{
+  float:left;
+}
+nav .right_nav{
+  float:right;
+}
+
+.one{
+  background-image: url('images/chinook.jpg');
+  background-color: #f6e7be;
+  background-blend-mode: multiply;
+  background-size: 80px;
+  margin-left:70px;
+}
+.two{
+    background-image: url('images/cutter.jpeg'),url('images/cutter.jpeg');
+    background-color: #b7a77d;
+    background-blend-mode: luminocity, screen;
+}
+.three{
+    background-image: url('images/family.jpg');
+    background-color: #f6e7be;
+    background-blend-mode: multiply;
+
+}
+.four{
+    background-image: url('images/fish.jpg');
+    background-color: #f6e7be;
+    background-blend-mode: multiply;
+    float:right;
+    margin-right:70px;
+}
+.five{
+
+  background-color: #f6e7be;
+    background-image: url('images/frosted-cookie.jpg');
+    background-blend-mode: multiply;
+    background-size: 180px;
+    background-position: 0px 2px;
+    float: right;
+    transform: rotate(40deg);
+}
+.six{
+  background-image: url('images/shirt.jpg');
+  background-color: #f6e7be;
+  background-blend-mode: multiply;
+
+    float:right;
 }
 /***************/
 /***************/
