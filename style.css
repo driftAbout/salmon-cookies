@@ -218,17 +218,27 @@ footer p {
 }
 
 #table_editor{
-  bottom: -380px;
+  /*bottom: -380px;*/
+  top:0;
   z-index: 11;
   position: absolute;
-  display: none;
+  /*display: none;*/
   background:#b9a656;
   margin:40px auto;
   color:#342926;
   border-radius:3px;
   box-shadow: #999 1px 1px 5px 0;
   width:400px;
+  /*padding:10px;*/
+  max-height: 0;
+  overflow:hidden;
+  transition: top 350ms, max-height 350ms;
+}
+
+#table_editor.active{
   padding:10px;
+  max-height: 680px;
+  top:-280px;
 }
 
 form{
@@ -343,6 +353,71 @@ input[type="text"]:focus{
     font-size: 12px;
     float: right;
   }
+
+  .tabs{
+    width:300px;
+    margin:0 auto;
+    padding-left: 4px;
+  }
+  .tabs span{
+    padding: 5px;
+    float: left;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top: 2px solid #555;
+    margin-top: 8px;
+    opacity: .7;
+  }
+
+  #left_tab{
+    border-left: 2px solid #555;
+
+  }
+
+  #right_tab{
+    border-right: 2px solid #555;
+  }
+
+
+.tabs .active{
+  border-left: 2px solid #555;
+  border-right: 2px solid #555;
+  background: #888;
+  opacity: 1;
+  box-shadow: 1px 0px 1px  0 #333;
+}
+
+#edit_store {
+  margin:0 10px;
+  max-height:0;
+  overflow:hidden;
+  width: 260px;
+  transition: 350ms all;
+}
+
+#edit_store.active{
+  margin:10px;
+  max-height: 42px;
+  overflow: hidden;
+}
+
+#edit_store.active.show_li{
+  max-height: 600px;
+  overflow:auto;
+  transition: max-height 350ms;
+}
+
+#edit_store li{
+  background:#fff;
+  border-rdius:3px;
+  border:1px solid #342926;
+  padding: 12px;
+}
+
+#edit_store li:nth-of-type(n+2){
+  /*display: none;*/
+}
+
 
 /************************************/
 /* Still Using on Index.html for now*/
