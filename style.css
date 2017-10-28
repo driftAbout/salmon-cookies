@@ -3,10 +3,9 @@
 body {
     background: #f6e7be;
     height: 100vh;
+    /*background-image: url('images/fish.jpg');*/
 }
-.index_page{
-  background-image: url('images/prd_032917.jpg');
-}
+
 
 p,h2{
   font-family: Georgia;
