@@ -3,8 +3,8 @@
 body {
     background: #f6e7be;
     height: 100vh;
-    /*background-image: url('images/fish.jpg');
-    background-blend-mode: multiply; */
+    /*background-image: url('images/seattle.jpg');
+    background-blend-mode: screen; */
 }
 
 
@@ -15,13 +15,13 @@ p,h2{
 
 header {
   width:100%;
-  height: 200px;
+  height: 120px;
   background: #342926;
-  margin-top: 110px;
+  margin-top: 70px;
   border-top: #caa767 4px solid;
   border-bottom: #caa767 4px solid;
-  margin-bottom: 150px;
-  position: relative:
+  /*margin-bottom: 10px;*/
+  position: relative;
 }
 
 header .logo-img-wrap {
@@ -32,10 +32,11 @@ header .logo-img-wrap {
 
 header .logo-img {
   position: absolute;
-  top: -28px;
+  top: -30px;
   left: 152px;
   background-image: url('images/salmon.png');
-  background-position: 110px 38px;
+  background-blend-mode: darken;
+  background-position: 110px 46px;
   background-size: 480px;
   background-repeat: no-repeat;
   margin:0 auto;
@@ -53,14 +54,15 @@ header h1 {
   text-align: center;
   position: absolute;
   z-index: 9;
-  font-size: 120px;
-  top: 10px;
+  font-size: 100px;
+  top: -68px;
   text-shadow: #f6e7be 2px 0px, #f6e7be -2px 0px, #f6e7be 2px 0px, #f6e7be -2px 0px;
 }
 
 main {
   margin:0 auto;
   width: 960px;
+  padding-top:80px;
 }
 
 .sales-data {
@@ -426,6 +428,7 @@ input[type="text"]:focus{
 
 /************************************/
 /* Still Using on Index.html for now*/
+/*
 section p {
   font-size: 22px;
   margin: 20px 0 0 20px;
@@ -446,6 +449,7 @@ section li:nth-child(odd){
 section ul {
   margin:20px;
 }
+
 
 #store_locations{
   background:#b9a656;
@@ -489,6 +493,8 @@ section ul {
   margin:0 20px;
 }
 
+*/
+
 .clearFix{
   clear:both;
   margin-bottom:140px;
@@ -499,7 +505,6 @@ width: 100px;
 height: 100px;
 border-radius: 100px;
 border: 2px solid #342926;
-float: left;
 margin: 10px;
 background-position: center;
 background-repeat: no-repeat;
@@ -511,11 +516,12 @@ position:relative;
 
 .circles p{
   position:absolute;
-  top: 40px;
+  top: 35px;
   width: 100%;
+  height:100px;
   text-align: center;
   opacity:0;
-  transition: 350ms;
+  transition: 150ms;
 }
 
 .circles p:hover{
@@ -527,13 +533,18 @@ position:relative;
 }
 
 nav{
-  position:relative;
-  width: 1168px;
+  width: 960px;;
   margin:0 auto;
 }
 
 nav section{
+  position:relative;
+  margin: 0 auto;
+  left:180px;
+}
+nav section li {
   position:absolute;
+  display:inline-block;
 }
 nav .left_nav{
   float:left;
@@ -547,42 +558,86 @@ nav .right_nav{
   background-color: #f6e7be;
   background-blend-mode: multiply;
   background-size: 80px;
-  margin-left:70px;
-}
-.two{
-    background-image: url('images/cutter.jpeg'),url('images/cutter.jpeg');
-    background-color: #b7a77d;
-    background-blend-mode: luminocity, screen;
-}
-.three{
-    background-image: url('images/family.jpg');
-    background-color: #f6e7be;
-    background-blend-mode: multiply;
+  top: -60px;
+  left: -70px;
 
 }
-.four{
+.two{
+  position:absolute;
+  background-image: linear-gradient(#f6e7be, #f6e7be),url(images/cutter.jpeg), url(images/cutter.jpeg);
+  background-color: #f6e7be;
+  background-blend-mode: soft-light , luminosity, multiply;
+  left:300px;
+  top:-50px;
+}
+.four {
     background-image: url('images/fish.jpg');
     background-color: #f6e7be;
     background-blend-mode: multiply;
-    float:right;
-    margin-right:70px;
+    top: 10px;
+    left: -40px
 }
-.five{
 
-  background-color: #f6e7be;
+.three {
+    background-image: url('images/family.jpg');
+    background-color: #f6e7be;
+    background-blend-mode: multiply;
+    top:20px;
+    }
+
+.five{
+    background-color: #f6e7be;
     background-image: url('images/frosted-cookie.jpg');
     background-blend-mode: multiply;
     background-size: 180px;
     background-position: 0px 2px;
-    float: right;
     transform: rotate(40deg);
+    top: 10px;
+    left: 40px
 }
-.six{
+
+.six {
   background-image: url('images/shirt.jpg');
   background-color: #f6e7be;
   background-blend-mode: multiply;
-
-    float:right;
+  top: -60px;
+  left: 70px;
 }
+
+.about {
+  width: 960px;
+  margin: 0 auto;
+  height: 320px;
+  position:relative;
+
+}
+
+.family_image {
+  background-color: #f6e7be;
+  background-image: url('images/family.jpg');
+  background-blend-mode: multiply;
+  background-position: -129px 2px;
+  background-repeat: no-repeat;
+  background-size: auto 320px;
+  height:310px;
+  width:370px;
+  overflow: hidden;
+  margin-right:40px;
+  margin-bottom:40px;
+  float:left;
+  border: 15px solid #fff5db;
+  box-shadow: #ccb999 5px 5px 5px 0;
+}
+
+.about p {
+  font-family: verdana;
+  font-size: 18px;
+  line-height: 26px;
+  color: #342926;
+  padding-top: 20px;
+}
+
+
+
 /***************/
 /***************/
