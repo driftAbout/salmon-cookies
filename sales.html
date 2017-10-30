@@ -15,9 +15,86 @@
   <h1>Pat's Salmon Cookies</h1>
 </header>
 <main>
-    <div id="sales-data">
+  <div class="table_editor_wrap">
+    <section id='table_editor'>
+      <div class="tabs"><span id="left_tab" class="active">Add Store</span><span id="right_tab">Edit Store</span></div>
+
+      <form id="admin_form">
+        <div class="form_border">
+          <ul id="edit_store" >
+            <li>Edit Store</li>
+          </ul>
+      <fieldset>
+        <label for="store_location">Store Location</label>
+          <input type="text" name="store_location" placeholder="Enter new store location" required>
+      </fieldset>
+      <fieldset>
+        <div>
+          <label for="open">Opening Hour:</label>
+          <select name="open" required>
+            <option disabled selected value> -- </option>
+            <option value="6am"> 6 AM</option>
+            <option value="7am"> 7 AM</option>
+            <option value="8am"> 8 AM</option>
+            <option value="9am"> 9 AM</option>
+            <option value="10am">10 AM</option>
+            <option value="11am">11 AM</option>
+            <option value="12pm">12 PM</option>
+            <option value="1pm"> 1 PM</option>
+            <option value="2pm"> 2 PM</option>
+            <option value="3pm"> 3 PM</option>
+            <option value="4pm"> 4 PM</option>
+            <option value="5pm"> 5 PM</option>
+            <option value="6pm"> 6 PM</option>
+            <option value="7pm"> 7 PM</option>
+            <option value="8pm"> 8 PM</option>
+          </select>
+        </div>
+        <div>
+          <label for="close">Closing Hour:</label>
+          <select name="close" required>
+            <option disabled selected value> -- </option>
+            <option value="6am"> 6 AM</option>
+            <option value="7am"> 7 AM</option>
+            <option value="8am"> 8 AM</option>
+            <option value="9am"> 9 AM</option>
+            <option value="10am">10 AM</option>
+            <option value="11am">11 AM</option>
+            <option value="12pm">12 PM</option>
+            <option value="1pm"> 1 PM</option>
+            <option value="2pm"> 2 PM</option>
+            <option value="3pm"> 3 PM</option>
+            <option value="4pm"> 4 PM</option>
+            <option value="5pm"> 5 PM</option>
+            <option value="6pm"> 6 PM</option>
+            <option value="7pm"> 7 PM</option>
+            <option value="8pm"> 8 PM</option>
+          </select>
+        </div>
+      </fieldset>
+      <fieldset>
+        <label for="min_customers">Minimum Customers per/hr:</label>
+        <input type="number" name="min_customers" required>
+        <label for="max_customers">Maximum Customers per/hr:</label>
+        <input type="number" name="max_customers" required>
+        <label for="average_cookies">Average Cookies Sold per/hr:</label>
+        <input type="number" step=".1" name="average_cookies" required>
+      </fieldset>
     </div>
-    <div class=clearFix></div>
+      <fieldset>
+        <button id="submit_btn" type="submitt">Add New  Store</button>
+        <button id="cancel_btn" formnovalidate>Cancel</button>
+      </fieldset>
+    </form>
+    </section>
+  </div>
+  <section class="sales-data">
+    <div>
+      <button id="open_editor_btn" >Admin Console</button>
+      <h2>Cookies Needed By Location Each Day</h2>
+      <table id="sales-table"></table>
+    <div>
+  </section>
 </main>
 <footer>
   <h2>"Cookies so good, you'll be hooked"</h2>
