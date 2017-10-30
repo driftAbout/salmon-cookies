@@ -421,7 +421,12 @@ Shop_form_data.prototype.append_li = function(){
 ////////////////////////////
 //still using on index.html
 // create store hours for the index page
+/*
 function buildStoreHours(store_locations_section){
+  var shops = [{shopLocation:'1st and Pike', shop_hours.open: '6am', shop_hours.close:'7pm'),
+  {shopLocation:'SeaTac Airport', shop_hours.open: '6am', shop_hours.close:'8pm'),
+  {shopLocation:'Seattle Center', shop_hours.open: '8am', shop_hours.close:'6pm')];
+
   var locations = [];
   for (var i = 0; i < shops.length; i++){
     locations.push('<span>' + shops[i].shopLocation + '</span><span class="open-hour">' + shops[i].shop_hours.open + '</span><span>' + shops[i].shop_hours.close + '</span>');
@@ -436,6 +441,7 @@ function buildStoreHours(store_locations_section){
   store_locations_section.appendChild(storeP);
   store_locations_section.appendChild(ulEl);
 }
+*/
 /////////////////////////////////
 //////////////////////////////////
 

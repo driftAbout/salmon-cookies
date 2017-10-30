@@ -3,9 +3,7 @@
 body {
     background: #f6e7be;
     height: 100vh;
-    /*background-image: url('images/seattle.jpg');
-    background-blend-mode: screen; */
-}
+  }
 
 
 
@@ -221,6 +219,7 @@ footer p {
   margin: 0 auto;
   width: 400px;
   position: relative;
+  margin-top:80px;
 
 }
 
@@ -428,13 +427,20 @@ input[type="text"]:focus{
 
 /************************************/
 /* Still Using on Index.html for now*/
-/*
-section p {
+
+#store_locations.section_active, #admin_login.section_active, .about.section_active {
+  max-height:400px;
+  opacity:1;
+  overflow:visible;
+  transition: 350ms;
+}
+
+#store_locations p {
   font-size: 22px;
   margin: 20px 0 0 20px;
 }
 
-section li {
+#store_locations li {
   font-family: Verdana;
   font-size: 16px;
   padding: 5px 0 5px 10px;
@@ -442,11 +448,11 @@ section li {
   border-radius:3px;
 }
 
-section li:nth-child(odd){
+#store_locations li:nth-child(odd){
   background:#f6e7be;
 }
 
-section ul {
+#store_locations ul {
   margin:20px;
 }
 
@@ -457,10 +463,12 @@ section ul {
   border-radius:3px;
   box-shadow: #999 1px 1px 5px 0;
   position: relative;
-  margin:100px auto;
+  margin:0 auto;
   width: 470px;
   padding:20px;
-  display:none;
+  max-height:0;
+  opacity:0;
+  overflow: hidden;
 }
 
 #store_locations ul{
@@ -493,8 +501,6 @@ section ul {
   margin:0 20px;
 }
 
-*/
-
 .clearFix{
   clear:both;
   margin-bottom:140px;
@@ -521,7 +527,7 @@ position:relative;
   height:100px;
   text-align: center;
   opacity:0;
-  transition: 150ms;
+  transition: 100ms;
 }
 
 .circles p:hover{
@@ -596,6 +602,12 @@ nav .right_nav{
     left: 40px
 }
 
+.five p {
+  margin-left:25px;
+  top: 25px;
+  transform: rotate(-40deg);
+}
+
 .six {
   background-image: url('images/shirt.jpg');
   background-color: #f6e7be;
@@ -604,10 +616,19 @@ nav .right_nav{
   left: 70px;
 }
 
+  /*.about.about_active{
+    max-height: 440px;
+    opacity:1;
+    overflow: visible;
+    transition: :350ms
+  }*/
+
 .about {
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
   width: 960px;
   margin: 0 auto;
-  height: 320px;
   position:relative;
 
 }
@@ -637,6 +658,96 @@ nav .right_nav{
   padding-top: 20px;
 }
 
+
+#admin_login {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+/*#admin_login.admin_active {
+  opacity: 1;
+  max-height:400px;
+  overflow: auto;
+}*/
+
+#admin_login div {
+  width: 330px;
+  margin: 0 auto;
+  background: #b9a656;
+  border-radius: 5px;
+}
+
+#admin_login input[type="text"], #admin_login input[type="password"]{
+  padding: 7px;
+  border: solid 1px #333;
+  border-radius:  3px;
+  width:240px;
+  height:32px;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+#admin_submit_btn {
+  padding:10px;
+  border-radius:3px;
+  border: none;
+  cursor: pointer;
+  margin-right:0;
+  float: right;
+  color: #f6e7be;
+  background: #342926;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#admin_cancel_btn {
+  background: #888;
+  color: #333;
+}
+
+#admin_link {
+  float: right;
+  margin: 20px;
+  color: #f6e7be;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#admin_form fieldset {
+  margin:15px auto;
+}
+
+#admin_form fieldset:last-of-type{
+  width: 265px;
+  padding-top: 0;
+  margin-bottom: 0;
+}
+
+#admin_form fieldset:first-of-type{
+  border: 2px solid #555;
+}
+
+#admin_login #admin_form {
+  margin: 0 auto;
+  width: 290px;
+  padding: 0 15px;
+}
+
+#admin_login #admin_form label{
+  margin-top:10px;
+}
+
+#admin_login h3{
+  font-size: 22px;
+  margin-left: 20px;
+  padding-top: 20px;
+}
+
+#hidden_admin_link {
+  display: none;
+}
 
 
 /***************/

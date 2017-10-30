@@ -8,7 +8,7 @@
   </head>
   <body>
   <header>
-
+    <p id="admin_link">admin</p>
     <!-- <div class="one circles">
     <a href=""><p>Salmon</p></a>
     </div>
@@ -39,43 +39,63 @@
   <nav>
     <section>
       <ul>
-        <li class="one circles">
-        <a href=""><p>Salmon</p></a>
+        <li id="home" class="one circles">
+        <a href=""><p>Home</p></a>
         </li>
         <!-- <li class="two circles">
         <a href=""><p>Merchandise</p></a>
         </li> -->
 
         <li class="four circles">
-        <a href=""><p>About</p></a>
+        <a href=""><p>Art</p></a>
         </li>
-        <li class="three circles">
+        <li id="about_toggle" class="three circles">
         <a href=""><p>About</p></a>
         </li>
         <li class="five circles">
-        <a href="sales.html"><p>Sales</p></a>
+        <a href=""><p>Order</p></a>
         </li>
         <li class="six circles">
-        <a href=""><p>Clothing</p></a>
+        <a href=""><p>Swag</p></a>
         </li>
       </ul>
     </section>
   </nav>
 
   <main>
+    <section id="admin_login">
+      <div>
+        <h3>Admin Login</h3>
+
+        <form id="admin_form">
+          <fieldset>
+            <label for="admin_name">User Name</label>
+            <input type="text" name="admin-name" value="" placeholder="User Name">
+            <label for="admin_password">Password</label>
+            <input type="password" name="admin_password" placeholder="Password">
+          </fieldset>
+          <fieldset>
+            <button id="admin_submit_btn" type="submitt">Enter</button>
+            <button id="admin_cancel_btn" formnovalidate>Cancel</button>
+          </fieldset>
+        </form>
+        <a id="hidden_admin_link" href="sales.html"></a>
+      </div>
+    </section>
     <section class="about">
       <div class="family_image"></div>
       <div class="two circles"></div>
       <p>The question I get asked most is, "Where on earth did get the idea to make cookies with real salmon?"  The answer is really quite simple.  My childern bought me a cookie cutter shaped like a fish for Mothers Day.  In one of my many conversations with my friends about our kids, the subject of odd items gifted by children came up.  I brought up the salmon cookie cutter and one of my friends remarked, "You should make cookies with real salmon and make your kids eat them!"  We all laughed but wouldn't you know it, I foumd myself whipping up my first batch of salmon cookies the very next day.</p>
     </section>
 
-    <section id="store_locations"></section>
+    <section id="store_locations" class="section_active"></section>
   </main>
   <footer>
     <h2>"Cookies so good, you'll be hooked"</h2>
     <p>For more information contact: Pat King at pat@salmoncookies.com</p>
   </footer>
-  <script type="text/javascript" src="app.js"></script>
+    <!-- <script type="text/javascript" src="app.js"></script>  -->
+    <script type="text/javascript" src="home_app.js"></script>
   </body>
 
 </html>
